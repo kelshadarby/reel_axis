@@ -1,0 +1,22 @@
+language: ruby
+rvm:
+- 2.5.3
+addons:
+  postgresql: 9.6
+  chrome: stable
+before_install:
+- yes | gem update --system --force
+- gem install bundler
+script:
+- yarn
+- bundle exec rails db:{create,migrate} RAILS_ENV=test
+- bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: Z1qybdSkeGqR+qDpepM5ANzRpLTQqLuhqzYDdqhnwp1XNl2dVT0FZO+2Hc37FKhYIxXwQQmU5ht3hO7KTHPvtCQy6ZfHYBAgI+Hk4JwWeH8Dhq5AcblICWYnCgTJopgEP+lSljR21jChbZ8pS4698U4NDIXiPNVLzhoek7E/qfizWdpcQ2vSberZWko9wRTsyjXJlP/mp9jXsYv+p6YPLkKl4pkQh25v3drKn92GPZyPdl4FgbUmBoliTQvWL6DryYSwV0Io9/DoaHpUSX3BOuFIyUdIjXjoEpKo2ftYmdx9Ox9eyYISEaLk9kKm9Gkvw5C0R9VTgeVKfW8ztBLmVeBaKFnJMC8PNOo1xCC9IWQDAYtqMkoiuwBQdpqVaok6+aOdHU1iM39uIuGoo+tOnf+wqNw7IpI0QiHL4mz0sVi6Qh51YPz9d5p3yxvUpJXia2OBzKjDfqve2OxNIbe/BfO+u83d1rBAyK2TsznshaHSNc45g4r5ux4rWwilB733hvJsxClwtYCvE/8EykvfVPjwvgXRzv/3ocqnX9YO9JLQ3Ee9Aui7+7K3T1nC7SjfUKNgfTkXinmBmKx751XboWuf8bbN7VzjbnCXcdTIKyhzZyuogoYOwrd8FIl+Q9oTmlbqB73aH9m46vL+RPVwpi+VCh5wNQtvYpXJbZJd2G8=
+  app: reel-axis
+  run: rails db:{migrate,seed}
+  on:
+    repo: kelshadarby/reel-axis
+  skip_cleanup: 'true'
